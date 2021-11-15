@@ -1,5 +1,5 @@
-# GPS Tracks Frontend
-Frontend for the GPS track viewer and manager web app.
+# Courses Database Frontend
+Frontend for the Courses Database viewer and manager web app.
 
 ## Environment variables
 

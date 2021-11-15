@@ -1,4 +1,4 @@
-GPS Tracks : frontend
+Courses Database : frontend
 
 Core files:
 ----------
