@@ -1,0 +1,5 @@
+# Base URL for users-api service (http://localhost).
+REACT_APP_BACKEND_URL=
+
+# Port for users-api service (3001).
+REACT_APP_BACKEND_PORT=
