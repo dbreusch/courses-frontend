@@ -16,14 +16,14 @@ import LoadingSpinner from './shared/components/UIElements/LoadingSpinner';
 // import Users from './user/pages/Users';
 const Users = React.lazy(() => import('./user/pages/Users'));
 
-// // import NewCourse from './places/pages/NewCourse';
-// const NewCourse = React.lazy(() => import('./places/pages/NewCourse'));
+// // import NewCourse from './courses/pages/NewCourse';
+const NewCourse = React.lazy(() => import('./courses/pages/NewCourse'));
 
-// // import UserCourses from './places/pages/UserCourses';
-// const UserCourses = React.lazy(() => import('./places/pages/UserCourses'));
+// import UserCourses from './courses/pages/UserCourses';
+const UserCourses = React.lazy(() => import('./courses/pages/UserCourses'));
 
-// // import UpdateCourse from './places/pages/UpdateCourse';
-// const UpdateCourse = React.lazy(() => import('./places/pages/UpdateCourse'));
+// // import UpdateCourse from './courses/pages/UpdateCourse';
+const UpdateCourse = React.lazy(() => import('./courses/pages/UpdateCourse'));
 
 // import Auth from './user/pages/Auth';
 const Auth = React.lazy(() => import('./user/pages/Auth'));
@@ -40,15 +40,15 @@ const App = () => {
         <Route path="/" exact>
           <Users />
         </Route>
-        {/* <Route path="/:userId/places" exact>
-          <UserPlaces />
+        <Route path="/:userId/courses" exact>
+          <UserCourses />
         </Route>
-        <Route path="/places/new" exact>
-          <NewPlace />
+        <Route path="/courses/new" exact>
+          <NewCourse />
         </Route>
-        <Route path="/places/:placeId">
-          <UpdatePlace />
-        </Route> */}
+        <Route path="/courses/:placeId">
+          <UpdateCourse />
+        </Route>
         <Redirect to="/" />
       </Switch>
     );
@@ -58,9 +58,9 @@ const App = () => {
         <Route path="/" exact>
           <Users />
         </Route>
-        {/* <Route path="/:userId/places" exact>
-          <UserPlaces />
-        </Route> */}
+        <Route path="/:userId/courses" exact>
+          <UserCourses />
+        </Route>
         <Route path="/auth">
           <Auth />
         </Route>
