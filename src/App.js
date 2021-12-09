@@ -1,21 +1,32 @@
 // the GPS Tracks app
 //
-// uses AuthContext to globally manage user authentication status
-// recognized routes depend on login status
+// uses AuthContext to globally manage user authentication status;
+// recognized routes depend on login status;
 // Navigation and routes wrapped by React Router
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
-import Users from './user/pages/Users';
-// import NewPlace from './places/pages/NewPlace';
-// import UserPlaces from './places/pages/UserPlaces';
-// import UpdatePlace from './places/pages/UpdatePlace';
-import Auth from './user/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 
 import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/auth-hook';
+import LoadingSpinner from './shared/components/UIElements/LoadingSpinner';
+
+// import Users from './user/pages/Users';
+const Users = React.lazy(() => import('./user/pages/Users'));
+
+// // import NewCourse from './places/pages/NewCourse';
+// const NewCourse = React.lazy(() => import('./places/pages/NewCourse'));
+
+// // import UserCourses from './places/pages/UserCourses';
+// const UserCourses = React.lazy(() => import('./places/pages/UserCourses'));
+
+// // import UpdateCourse from './places/pages/UpdateCourse';
+// const UpdateCourse = React.lazy(() => import('./places/pages/UpdateCourse'));
+
+// import Auth from './user/pages/Auth';
+const Auth = React.lazy(() => import('./user/pages/Auth'));
 
 const App = () => {
   // get global information from Context
@@ -69,11 +80,19 @@ const App = () => {
         logout: logout
       }}
     >
-    {/* wrap MainNavigation and Routes in the Router */}
+      {/* wrap MainNavigation and Routes in the Router */}
       <Router>
         <MainNavigation />
         <main>
-          {routes}
+          <Suspense
+            fallback={
+              <div className="center">
+                <LoadingSpinner />
+              </div>
+            }
+          >
+            {routes}
+          </Suspense>
         </main>
       </Router>
     </AuthContext.Provider>
