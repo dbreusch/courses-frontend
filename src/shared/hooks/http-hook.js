@@ -31,13 +31,16 @@ export const useHttpClient = () => {
         activeHttpRequests.current.push(httpAbortCtrl);
 
         // try the HTTP request using fetch
+        // console.log(`http-hook: ${url} ${method}`);
         try {
-            const response = await fetch(url, {
-                method,
-                body,
-                headers,
-                signal: httpAbortCtrl.signal
-            });
+            const response = await fetch(url,
+                {
+                    method: method,
+                    body: body,
+                    headers: headers,
+                    mode: 'cors',
+                    signal: httpAbortCtrl.signal
+                });
 
             // convert response to JSON
             const responseData = await response.json();
@@ -57,6 +60,8 @@ export const useHttpClient = () => {
 
             return responseData;
         } catch (err) {
+            // console.log('http-hook: catch');
+            // console.log(err);
             setError(err.message || 'Something went wrong, please try again.');
             setIsLoading(false);
             throw (err);

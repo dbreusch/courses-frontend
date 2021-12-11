@@ -22,8 +22,8 @@ const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  // const backendUrl = 'http://localhost:3001';
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost';
+  // const backendUrl = 'https://localhost:3001';
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
   const backendPort = process.env.REACT_APP_BACKEND_PORT || 3001;
 
   // define default form
@@ -85,7 +85,6 @@ const Auth = () => {
     if (isLoginMode) {  // login mode
       try {
         // send email and password to backend login api
-        // console.log('Sending POST');
         const responseData = await sendRequest(
           `${backendUrl}:${backendPort}/login`,
           'POST',

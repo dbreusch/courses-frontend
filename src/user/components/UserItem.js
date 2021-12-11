@@ -11,7 +11,7 @@ import Card from '../../shared/components/UIElements/Card';
 import './UserItem.css';
 
 const UserItem = props => {
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost';
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
   const backendPort = process.env.REACT_APP_BACKEND_PORT || 3001;
 
   return (
