@@ -9,18 +9,18 @@ const CourseList = props => {
   if (props.items.length === 0) {
     if (props.userId === props.authUserId) {
       return (
-        <div className="place-list center">
+        <div className="course-list center">
           <Card>
-            <h2>No places found. Maybe create one?</h2>
-            <Button to="/places/new">Share Place</Button>
+            <h2>No courses found. Maybe create one?</h2>
+            <Button to="/courses/new">Add Course</Button>
           </Card>
         </div>
       );
     } else {
       return (
-        <div className="place-list center">
+        <div className="course-list center">
           <Card>
-            <h2>No places found. Login to create one.</h2>
+            <h2>No courses found. Login to create one.</h2>
             <Button to="/">Return</Button>
           </Card>
         </div>
@@ -29,17 +29,15 @@ const CourseList = props => {
   }
 
   return (
-    <ul className="place-list">
-      {props.items.map(place => (
+    <ul className="course-list">
+      {props.items.map(course => (
         <CourseItem
-          key={place.id}
-          id={place.id}
-          image={place.image}
-          title={place.title}
-          description={place.description}
-          address={place.address}
-          creatorId={place.creator}
-          coordinates={place.location}
+          key={course.id}
+          id={course.id}
+          title={course.title}
+          instructor={course.instructor}
+          description={course.description}
+          creatorId={course.creator}
           onDelete={props.onDeletePlace}
         />
       ))}

@@ -12,22 +12,22 @@ const UserCourses = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { userId: authUserId } = useAuth();
 
-  // const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const backendUrl = "https://localhost:3002";
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
+  const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
 
   const userId = useParams().userId;
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const responseData = await sendRequest(`${backendUrl}/places/user/${userId}`);
+        const responseData = await sendRequest(`${backendUrl}:${backendPort}`);
         setLoadedCourses(responseData.courses);
       } catch (err) {
-        // console.log(err.message);
+        console.log(err.message);
       }
     };
     fetchCourses();
-  }, [sendRequest, userId, backendUrl]);
+  }, [sendRequest, userId, backendUrl, backendPort]);
 
   const courseDeletedHandler = (deletedCourseId) => {
     setLoadedCourses(prevCourses =>

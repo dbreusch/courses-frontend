@@ -43,7 +43,7 @@ const MainNavigation = props => {
                     <span />
                 </button>
                 <h1 className="main-navigation__title">
-                    <Link to="/">Courses Database</Link>
+                    <Link to="/">Courses Catalog</Link>
                 </h1>
                 <nav className="main-navigation__header-nav">
                     <NavLinks />

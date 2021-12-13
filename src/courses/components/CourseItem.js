@@ -17,8 +17,10 @@ const CourseItem = props => {
   // const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const assetUrl = process.env.REACT_APP_ASSET_URL;
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
+  const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
+
+  // const assetUrl = process.env.REACT_APP_ASSET_URL;
 
   // const openMapHandler = () => setShowMap(true);
 
@@ -36,7 +38,7 @@ const CourseItem = props => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `${backendUrl}/places/${props.id}`,
+        `${backendUrl}:${backendPort}/${props.id}`,
         'DELETE',
         null,
         {
@@ -45,7 +47,7 @@ const CourseItem = props => {
       );
       props.onDelete(props.id);
     } catch (err) {
-      // console.log(err.message);
+      console.log(err.message);
     }
   };
 
@@ -86,12 +88,12 @@ const CourseItem = props => {
       <li className="course-item">
         <Card className="course-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
-          <div className="course-item__image">
+          {/* <div className="course-item__image">
             <img src={`${assetUrl}/${props.image}`} alt={props.title} />
-          </div>
+          </div> */}
           <div className="course-item__info">
             <h2>{props.title}</h2>
-            <h3>{props.address}</h3>
+            <h3>{props.instructor}</h3>
             <p>{props.description}</p>
           </div>
           <div className="course-item__actions">
@@ -99,7 +101,7 @@ const CourseItem = props => {
               VIEW ON MAP
             </Button> */}
             {auth.userId === props.creatorId && (
-              <Button to={`/places/${props.id}`}>EDIT</Button>
+              <Button to={`/courses/${props.id}`}>EDIT</Button>
             )}
 
             {auth.userId === props.creatorId && (
