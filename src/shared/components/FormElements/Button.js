@@ -12,7 +12,7 @@ const Button = props => {
     return (
       <a
         className={`button button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+          'button--inverse'} ${props.danger && 'button--danger'} ${props.cancel && 'button--cancel'}`}
         href={props.href}
       >
         {props.children}
@@ -25,7 +25,7 @@ const Button = props => {
         to={props.to}
         exact={props.exact}
         className={`button button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+          'button--inverse'} ${props.danger && 'button--danger'} ${props.cancel && 'button--cancel'}`}
       >
         {props.children}
       </Link>
