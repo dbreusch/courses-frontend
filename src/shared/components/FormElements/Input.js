@@ -62,10 +62,13 @@ const Input = props => {
     };
 
     // support 'input' and 'textarea' input fields
-    const element = props.element === 'input' ? (
+    const element = props.element || 'input'
+    const fieldType = props.type || 'text'
+
+    const formElement = element === 'input' ? (
         <input
             id={props.id}
-            type={props.type}
+            type={fieldType}
             placeholder={props.placeholder}
             onChange={changeHandler}
             onBlur={touchHandler}
@@ -85,7 +88,7 @@ const Input = props => {
     ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}
     `}>
         <label htmlFor={props.id}>{props.label}</label>
-        {element}
+        {formElement}
         {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>;
 };

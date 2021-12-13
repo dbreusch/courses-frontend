@@ -5,9 +5,12 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import ImageUpload from '../../shared/components/FormElements/ImageUpload';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+// import ImageUpload from '../../shared/components/FormElements/ImageUpload';
+// import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
+// import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
+import { formInput } from '../formData/formInput';
+import { formFields } from '../formData/formFields';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './CourseForm.css';
@@ -18,42 +21,32 @@ const NewCourse = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: false
-      },
-      description: {
-        value: '',
-        isValid: false
-      },
-      address: {
-        value: '',
-        isValid: false
-      },
-      image: {
-        value: null,
-        isValid: false
-      }
-    },
+    formInput,
     false
   );
 
   const history = useHistory();
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
+  const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
 
-  const placeSubmitHandler = async event => {
+  const courseSubmitHandler = async event => {
     event.preventDefault();
 
     try {
       const formData = new FormData();
+      formData.append('purchaseSequence', formState.inputs.purchaseSequence.value);
       formData.append('title', formState.inputs.title.value);
-      formData.append('description', formState.inputs.description.value);
-      formData.append('address', formState.inputs.address.value);
-      formData.append('image', formState.inputs.image.value);
+      formData.append('category', formState.inputs.category.value);
+      formData.append('tools', formState.inputs.tools.value);
+      formData.append('hours', formState.inputs.hours.value);
+      formData.append('sections', formState.inputs.sections.value);
+      formData.append('lectures', formState.inputs.lectures.value);
+      formData.append('instructor', formState.inputs.instructor.value);
+      formData.append('dateBought', formState.inputs.dateBought.value);
+      formData.append('dateFinished', formState.inputs.dateFinished.value);
       await sendRequest(
-        `${backendUrl}/places`,
+        `${backendUrl}:${backendPort}`,
         'POST',
         formData,
         {
@@ -66,11 +59,43 @@ const NewCourse = () => {
     }
   };
 
+  // 12/13/21
+  // There is NO WAY around using eval in the code below.  I tried using Function
+  // but it gave the same warnings about eval and then failed because the variable
+  // was not in scope.  I also tried moving evaluation into the Input component but
+  // that just moves the problem -- still can't do a "double interpolation" without
+  // using the unsafe eval function!  At least the eslint directive turns off the
+  // warning about it.
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <form className="place-form" onSubmit={placeSubmitHandler}>
+      <form className="course-form" onSubmit={courseSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
+        {
+          formFields.map(field => {
+            return <Input
+              key={field.id}
+              id={field.id}
+              label={field.label}
+              validators={field.validators}
+              errorText={field.errorText}
+              onInput={inputHandler}
+              // eslint-disable-next-line
+              initialValue=''
+              initialIsValid={false}
+            />;
+          }
+          )
+        }
+        {/* <Input
+          id="purchaseSequence"
+          element="input"
+          type="text"
+          label="Purchase Sequence"
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          errorText="Please enter a valid purchase sequence"
+        />
         <Input
           id="title"
           element="input"
@@ -81,30 +106,87 @@ const NewCourse = () => {
           errorText="Please enter a valid title"
         />
         <Input
-          id="description"
+          id="category"
           element="textarea"
-          label="Description"
-          validators={[VALIDATOR_MINLENGTH(5)]}
+          label="Category"
+          validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
-          errorText="Please enter a valid description (at least 5 characters)"
+          errorText="Please enter a valid category"
         />
         <Input
-          id="address"
+          id="tools"
           element="input"
           type="text"
-          label="Address"
+          label="Tools"
           validators={[VALIDATOR_REQUIRE]}
           onInput={inputHandler}
-          errorText="Please enter a valid address."
+          errorText="Please enter a valid tool (or tools)."
         />
-        <ImageUpload
+        <Input
+          id="hours"
+          element="input"
+          type="text"
+          label="Hours"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid number of hours."
+        />
+        <Input
+          id="sections"
+          element="input"
+          type="text"
+          label="Sections"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid number of sections."
+        />
+        <Input
+          id="lectures"
+          element="input"
+          type="text"
+          label="Lectures"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid number of lectures."
+        />
+        <Input
+          id="instructor"
+          element="input"
+          type="text"
+          label="Instructor"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid instructor."
+        />
+        <Input
+          id="dateBought"
+          element="input"
+          type="text"
+          label="Date Bought"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid bought date."
+        />
+        <Input
+          id="dateFinished"
+          element="input"
+          type="text"
+          label="Date Finished"
+          validators={[VALIDATOR_REQUIRE]}
+          onInput={inputHandler}
+          errorText="Please enter a valid finished date."
+        /> */}
+        {/* <ImageUpload
           id="image"
           onInput={inputHandler}
           errorText="Please provide an image."
-        />
-        <Button type="submit" disabled={!formState.isValid}>
-          ADD PLACE
-        </Button>
+        /> */}
+        <div className="course-item__actions">
+          <Button type="submit" disabled={!formState.isValid}>
+            ADD COURSE
+          </Button>
+          <Button to={`/`} cancel>CANCEL</Button>
+        </div>
       </form>
     </React.Fragment>
   );
