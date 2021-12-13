@@ -27,7 +27,8 @@ export const useAuth = () => {
 
     // determine token expiration; assumes one hour from now
     // use expirationDate if provided, otherwise create new value
-    const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+    const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 12); // 12 hours
+    // const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 10);
     setTokenExpirationDate(newTokenExpirationDate);
 
     // save userId, token and expiration to local storage
@@ -51,6 +52,8 @@ export const useAuth = () => {
   // logout the user
   // clears userid, token and token expiration from state variables and local storage
   const logout = useCallback(() => {
+    console.log('auth-hook automatic logout');
+
     // clear state variables
     setUserId(null);
     setToken(null);
