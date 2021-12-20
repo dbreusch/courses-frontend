@@ -27,7 +27,7 @@ export const useAuth = () => {
 
     // determine token expiration; assumes one hour from now
     // use expirationDate if provided, otherwise create new value
-    const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 12); // 12 hours
+    const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 18); // 18 hours
     // const newTokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 10);
     setTokenExpirationDate(newTokenExpirationDate);
 
