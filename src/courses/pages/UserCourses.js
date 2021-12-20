@@ -21,7 +21,9 @@ const UserCourses = () => {
     const fetchCourses = async () => {
       try {
         const responseData = await sendRequest(`${backendUrl}:${backendPort}`);
-        setLoadedCourses(responseData.courses);
+        const allCourses = responseData.courses;
+        const userCourses = allCourses.filter(course => course.creator === userId);
+        setLoadedCourses(userCourses);
       } catch (err) {
         console.log(err.message);
       }
