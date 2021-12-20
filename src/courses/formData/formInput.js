@@ -1,5 +1,5 @@
 export const formInput = {
-  purchaseSequence: {
+  n: {
     value: '',
     isValid: false
   },
@@ -20,23 +20,35 @@ export const formInput = {
     isValid: false
   },
   sections: {
-    value: null,
+    value: '',
     isValid: false
   },
   lectures: {
-    value: null,
+    value: '',
     isValid: false
   },
   instructor: {
-    value: null,
+    value: '',
     isValid: false
   },
   dateBought: {
-    value: null,
+    value: '',
     isValid: false
   },
   dateFinished: {
-    value: null,
+    value: '',
     isValid: false
-  }
+  },
+  description: {
+    value: '',
+    isValid: false
+  },
+  notes: {
+    value: '',
+    isValid: false
+  },
+  provider: {
+    value: '',
+    isValid: false
+  },
 };

@@ -23,6 +23,11 @@ const NavLinks = props => {
                     <NavLink to="/courses/new">ADD COURSE</NavLink>
                 </li>
             }
+            {auth.isLoggedIn &&
+                <li>
+                    <NavLink to="/courses/upload">UPLOAD COURSES</NavLink>
+                </li>
+            }
             {!auth.isLoggedIn &&
                 <li>
                     <NavLink to="/auth">AUTHENTICATE</NavLink>

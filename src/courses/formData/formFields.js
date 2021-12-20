@@ -3,7 +3,7 @@ import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 export const formFields = [
   {
-    "id": "purchaseSequence",
+    "id": "n",
     "label": "Purchase Sequence",
     "validators": [VALIDATOR_REQUIRE()],
     "errorText": "Please enter a valid purchase sequence.",
@@ -79,6 +79,31 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE()],
     "errorText": "Please enter a valid finished date.",
     "initialValue": "loadedCourse.dateFinished",
+    "updateable": "true"
+  },
+  {
+    "id": "description",
+    "element": "textarea",
+    "label": "Description",
+    "validators": [VALIDATOR_REQUIRE()],
+    "errorText": "Please enter a valid description.",
+    "initialValue": "loadedCourse.description",
+    "updateable": "true"
+  },
+  {
+    "id": "notes",
+    "label": "Notes",
+    "validators": [VALIDATOR_REQUIRE()],
+    "errorText": "Please enter valid notes.",
+    "initialValue": "loadedCourse.notes",
+    "updateable": "true"
+  },
+  {
+    "id": "provider",
+    "label": "Provider",
+    "validators": [VALIDATOR_REQUIRE()],
+    "errorText": "Please enter a valid provider.",
+    "initialValue": "loadedCourse.provider",
     "updateable": "true"
   },
 ]

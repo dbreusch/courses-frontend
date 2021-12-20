@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
@@ -13,6 +14,8 @@ import './CourseItem.css';
 const CourseItem = props => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
+
+  const history = useHistory();
 
   // const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -46,6 +49,7 @@ const CourseItem = props => {
         }
       );
       props.onDelete(props.id);
+      history.push(`/${auth.userId}/courses`);  // send user back to courses page
     } catch (err) {
       console.log(err.message);
     }
@@ -82,7 +86,7 @@ const CourseItem = props => {
           </React.Fragment>
         }>
         <p>Do you want to proceed and delete this course?
-        Please note that it can't be undone thereafter.</p>
+          Please note that it can't be undone thereafter.</p>
       </Modal>
 
       <li className="course-item">
@@ -109,6 +113,7 @@ const CourseItem = props => {
               >DELETE
               </Button>
             )}
+            <Button to={`/`} cancel>CANCEL</Button>
           </div>
         </Card>
       </li>

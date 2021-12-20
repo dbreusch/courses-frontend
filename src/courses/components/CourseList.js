@@ -38,7 +38,7 @@ const CourseList = props => {
           instructor={course.instructor}
           description={course.description}
           creatorId={course.creator}
-          onDelete={props.onDeletePlace}
+          onDelete={props.onDeleteCourse}
         />
       ))}
     </ul>

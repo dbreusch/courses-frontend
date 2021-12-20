@@ -135,7 +135,7 @@ const UpdateCourse = () => {
             <Button type="submit" disabled={!formState.isValid}>
               UPDATE COURSE
             </Button>
-            <Button to={`/`} cancel>CANCEL</Button>
+            <Button to={`/${auth.userId}/courses`} cancel>CANCEL</Button>
           </div>
         </form>
       }

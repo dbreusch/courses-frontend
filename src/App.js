@@ -1,4 +1,4 @@
-// the GPS Tracks app
+// the Course Catalog app
 //
 // uses AuthContext to globally manage user authentication status;
 // recognized routes depend on login status;
@@ -12,6 +12,7 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/auth-hook';
 import LoadingSpinner from './shared/components/UIElements/LoadingSpinner';
+import UploadCourses from './courses/pages/UploadCourses';
 
 // import Users from './user/pages/Users';
 const Users = React.lazy(() => import('./user/pages/Users'));
@@ -45,6 +46,9 @@ const App = () => {
         </Route>
         <Route path="/courses/new" exact>
           <NewCourse />
+        </Route>
+        <Route path="/courses/upload" exact>
+          <UploadCourses />
         </Route>
         <Route path="/courses/:courseId">
           <UpdateCourse />

@@ -33,27 +33,47 @@ const NewCourse = () => {
   const courseSubmitHandler = async event => {
     event.preventDefault();
 
+    // Note: that the purchaseSequence field being referred to as "n" is an artifact
+    // of support for loading courses from an Excel spreadsheet, where this is the
+    // column title
     try {
-      const formData = new FormData();
-      formData.append('purchaseSequence', formState.inputs.purchaseSequence.value);
-      formData.append('title', formState.inputs.title.value);
-      formData.append('category', formState.inputs.category.value);
-      formData.append('tools', formState.inputs.tools.value);
-      formData.append('hours', formState.inputs.hours.value);
-      formData.append('sections', formState.inputs.sections.value);
-      formData.append('lectures', formState.inputs.lectures.value);
-      formData.append('instructor', formState.inputs.instructor.value);
-      formData.append('dateBought', formState.inputs.dateBought.value);
-      formData.append('dateFinished', formState.inputs.dateFinished.value);
+      // const formData = new FormData();
+      // formData.append('n', formState.inputs.purchaseSequence.value);
+      // formData.append('title', formState.inputs.title.value);
+      // formData.append('category', formState.inputs.category.value);
+      // formData.append('tools', formState.inputs.tools.value);
+      // formData.append('hours', formState.inputs.hours.value);
+      // formData.append('sections', formState.inputs.sections.value);
+      // formData.append('lectures', formState.inputs.lectures.value);
+      // formData.append('instructor', formState.inputs.instructor.value);
+      // formData.append('dateBought', formState.inputs.dateBought.value);
+      // formData.append('dateFinished', formState.inputs.dateFinished.value);
       await sendRequest(
-        `${backendUrl}:${backendPort}`,
+        `${backendUrl}:${backendPort}/addCourse`,
         'POST',
-        formData,
+        JSON.stringify(
+          {
+            course:
+            {
+              n: formState.inputs.n.value,
+              Title: formState.inputs.title.value,
+              Category: formState.inputs.category.value,
+              Tools: formState.inputs.tools.value,
+              Hours: formState.inputs.hours.value,
+              Sections: formState.inputs.sections.value,
+              Lectures: formState.inputs.lectures.value,
+              Instructor: formState.inputs.instructor.value,
+              Bought: formState.inputs.dateBought.value,
+              Finished: formState.inputs.dateFinished.value
+            }
+          }
+        ),
         {
-          Authorization: 'Bearer ' + auth.token
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + auth.token
         }
       );
-      history.push('/'); // send user back to starting page
+      history.push(`/${auth.userId}/courses`); // send user back to courses page
     } catch (err) {
       // console.log(err.message);
     }
@@ -76,11 +96,11 @@ const NewCourse = () => {
             return <Input
               key={field.id}
               id={field.id}
+              element={field.element}
               label={field.label}
               validators={field.validators}
               errorText={field.errorText}
               onInput={inputHandler}
-              // eslint-disable-next-line
               initialValue=''
               initialIsValid={false}
             />;
