@@ -47,6 +47,7 @@ export const useAuth = () => {
         console.log(err.message);
       }
     }
+    return uid;
   }, []);
 
   // logout the user
