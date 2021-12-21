@@ -3,6 +3,7 @@
 // collect required user data
 // works with backend to login/register users
 import React, { useState, useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
@@ -18,6 +19,8 @@ import './Auth.css';
 
 const Auth = () => {
   const auth = useContext(AuthContext);
+
+  const history = useHistory();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -100,7 +103,8 @@ const Auth = () => {
 
         // login the verified user
         // console.log('Calling auth.login');
-        auth.login(responseData.userId, responseData.token);
+        const uid = auth.login(responseData.userId, responseData.token);
+        history.push(`/${uid}/courses`);  // send user back to courses page
       } catch (err) {
         console.log('authSubmitHandler login Error');
         if (err.name === "NS_ERROR_FILE_CORRUPTED") {
@@ -141,7 +145,8 @@ const Auth = () => {
         // console.log(responseData);
 
         // login the new user
-        auth.login(responseData.userId, responseData.token);
+        const uid = auth.login(responseData.userId, responseData.token);
+        history.push(`/${uid}/courses`);  // send user back to courses page
       } catch (err) {
         console.log('authSubmitHandler: error in user signup');
         if (err.name === "NS_ERROR_FILE_CORRUPTED") {
