@@ -75,7 +75,7 @@ const UpdateCourse = () => {
           'Authorization': 'Bearer ' + auth.token
         }
       );
-      history.push(`/${auth.userId}`);
+      history.push(`/${auth.userId}/courses`);
     } catch (err) {
       // console.log(err.message);
     }
