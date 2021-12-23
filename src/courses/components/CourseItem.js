@@ -113,7 +113,7 @@ const CourseItem = props => {
               >DELETE
               </Button>
             )}
-            <Button to={`/`} cancel>CANCEL</Button>
+            <Button to={`/`} cancel>BACK</Button>
           </div>
         </Card>
       </li>
