@@ -7,12 +7,15 @@ import Card from '../../shared/components/UIElements/Card';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { useForm } from '../../shared/hooks/form-hook';
-import { formInput } from '../formData/formInput';
-import { formFields } from '../formData/formFields';
+import { FormData } from '../formData/FormData';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './CourseForm.css';
 
+const formData = new FormData();
+const formFields = formData.formFields;
+const formInput = formData.formInput;
+const validFormKeys = formData.validFormKeys;
 
 const UpdateCourse = () => {
   const auth = useContext(AuthContext);
@@ -38,6 +41,11 @@ const UpdateCourse = () => {
           `${backendUrl}:${backendPort}/${courseId}`
         );
         setLoadedCourse(responseData.course);
+        // TODO: could dynamically process the responseData fields to populate
+        //       all formState subobjects with initial values and validity;
+        //       check keys in responseData.course against validFormKeys and
+        //       set values accordingly.  this would look a lot like the code
+        //       used in courseUpdateSubmitHandler to build updateBody.
         setFormData(
           {
             title: {
@@ -61,20 +69,45 @@ const UpdateCourse = () => {
   const courseUpdateSubmitHandler = async event => {
     event.preventDefault();
     try {
-      await sendRequest(
-        `${backendUrl}:${backendPort}/${courseId}`,
-        'PATCH',
-        JSON.stringify(
-          {
-            title: formState.inputs.title.value,
-            instructor: formState.inputs.instructor.value
+      let updateBody = {};
+      // TODO: could refactor to put the whole forEach into a separate function; or
+      //       just put the nested if in its own function.
+      //       I have also added a field "alias" to formFields that could be used
+      //       (somehow!) to handle the "n"/"purchaseSequence" case more cleanly,
+      //       but the code would have to look at that variable, not just formState.
+      const formEntries = Object.entries(formState.inputs);
+      formEntries.forEach(([formKey, formValue]) => {
+        if (validFormKeys.includes(formKey)) {
+          if (formKey === 'n') {
+            if (formValue['value'] !== loadedCourse['purchaseSequence']) {
+              // console.log(`Key purchaseSequence: ${loadedCourse['purchaseSequence']} to ${formValue['value']}`);
+              updateBody['purchaseSequence'] = formValue['value'];
+            }
+          } else {
+            if (formValue['value'] !== loadedCourse[formKey]) {
+              // console.log(`Key ${formKey}: ${loadedCourse[formKey]} to ${formValue['value']}`);
+              updateBody[formKey] = formValue['value'];
+            }
           }
-        ),
-        {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + auth.token
         }
-      );
+      });
+
+      if (Object.keys(updateBody).length > 0) {
+        const updateObj = { "update": updateBody };
+        // console.log(updateBody);
+        // console.log(updateObj);
+        await sendRequest(
+          `${backendUrl}:${backendPort}/${courseId}`,
+          'PATCH',
+          JSON.stringify(
+            updateObj
+          ),
+          {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + auth.token
+          }
+        );
+      }
       history.push(`/${auth.userId}/courses`);
     } catch (err) {
       // console.log(err.message);
@@ -117,6 +150,8 @@ const UpdateCourse = () => {
                 return <Input
                   key={field.id}
                   id={field.id}
+                  type={field.type}
+                  element={field.element}
                   label={field.label}
                   validators={field.validators}
                   errorText={field.errorText}
@@ -135,7 +170,9 @@ const UpdateCourse = () => {
             <Button type="submit" disabled={!formState.isValid}>
               UPDATE COURSE
             </Button>
-            <Button to={`/${auth.userId}/courses`} cancel>CANCEL</Button>
+            <Button to={`/${auth.userId}/courses`} cancel>
+              CANCEL
+            </Button>
           </div>
         </form>
       }
