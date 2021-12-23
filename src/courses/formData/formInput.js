@@ -1,3 +1,4 @@
+// 12/23/21 deprecated, can probably be removed
 export const formInput = {
   n: {
     value: '',
@@ -37,18 +38,18 @@ export const formInput = {
   },
   dateFinished: {
     value: '',
-    isValid: false
+    isValid: true
   },
   description: {
     value: '',
-    isValid: false
+    isValid: true
   },
   notes: {
     value: '',
-    isValid: false
+    isValid: true
   },
   provider: {
     value: '',
-    isValid: false
+    isValid: true
   },
 };
