@@ -62,8 +62,15 @@ const Input = props => {
     };
 
     // support 'input' and 'textarea' input fields
-    const element = props.element || 'input'
-    const fieldType = props.type || 'text'
+    const element = props.element || 'input';
+    const fieldType = props.type || 'text';
+
+    let initialValue;
+    if (fieldType === 'date') {
+        initialValue = inputState.value.split('T', 1);
+    } else {
+        initialValue = inputState.value;
+    }
 
     const formElement = element === 'input' ? (
         <input
@@ -72,17 +79,17 @@ const Input = props => {
             placeholder={props.placeholder}
             onChange={changeHandler}
             onBlur={touchHandler}
-            value={inputState.value}
+            value={initialValue}
         />
     ) : (
-            <textarea
-                id={props.id}
-                rows={props.rows || 3}
-                onChange={changeHandler}
-                onBlur={touchHandler}
-                value={inputState.value}
-            />
-        );
+        <textarea
+            id={props.id}
+            rows={props.rows || 3}
+            onChange={changeHandler}
+            onBlur={touchHandler}
+            value={initialValue}
+        />
+    );
 
     return <div className={`form-control
     ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}
