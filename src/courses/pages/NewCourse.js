@@ -6,14 +6,15 @@ import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 // import ImageUpload from '../../shared/components/FormElements/ImageUpload';
-// import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
-// import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
-import { formInput } from '../formData/formInput';
-import { formFields } from '../formData/formFields';
+import { FormData } from '../formData/FormData';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './CourseForm.css';
+
+const formData = new FormData();
+const formFields = formData.formFields;
+const formInput = formData.formInput;
 
 const NewCourse = () => {
   const auth = useContext(AuthContext);
@@ -64,7 +65,10 @@ const NewCourse = () => {
               Lectures: formState.inputs.lectures.value,
               Instructor: formState.inputs.instructor.value,
               Bought: formState.inputs.dateBought.value,
-              Finished: formState.inputs.dateFinished.value
+              Finished: formState.inputs.dateFinished.value,
+              desc: formState.inputs.description.value,
+              notes: formState.inputs.notes.value,
+              provider: formState.inputs.provider.value
             }
           }
         ),
@@ -75,17 +79,10 @@ const NewCourse = () => {
       );
       history.push(`/${auth.userId}/courses`); // send user back to courses page
     } catch (err) {
-      // console.log(err.message);
+      console.log(err.message);
     }
   };
 
-  // 12/13/21
-  // There is NO WAY around using eval in the code below.  I tried using Function
-  // but it gave the same warnings about eval and then failed because the variable
-  // was not in scope.  I also tried moving evaluation into the Input component but
-  // that just moves the problem -- still can't do a "double interpolation" without
-  // using the unsafe eval function!  At least the eslint directive turns off the
-  // warning about it.
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -96,13 +93,14 @@ const NewCourse = () => {
             return <Input
               key={field.id}
               id={field.id}
+              type={field.type}
               element={field.element}
               label={field.label}
               validators={field.validators}
               errorText={field.errorText}
               onInput={inputHandler}
               initialValue=''
-              initialIsValid={false}
+              initialIsValid={field.initialIsValid}
             />;
           }
           )
