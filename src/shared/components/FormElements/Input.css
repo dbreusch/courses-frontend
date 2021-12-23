@@ -40,3 +40,43 @@
   border-color: red;
   background: #ffd1d1;
 }
+
+/* set field widths */
+#n
+{
+  width: 5rem;
+}
+
+#hours,
+#sections,
+#lectures
+{
+  width: 4rem;
+}
+
+#category,
+#tools,
+#provider
+{
+  width: 12rem;
+}
+
+#instructor
+{
+  width: 30rem;
+}
+
+#dateBought,
+#dateFinished
+{
+  width: 10rem;
+}
+
+/* mark optional fields with different background color */
+#dateFinished,
+#description,
+#notes,
+#provider
+{
+  background: #caeee6;
+}
