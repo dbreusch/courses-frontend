@@ -103,7 +103,7 @@ const Auth = () => {
 
         // login the verified user
         // console.log('Calling auth.login');
-        const uid = auth.login(responseData.userId, responseData.token);
+        const uid = auth.login(responseData.userId, responseData.isAdmin, responseData.token);
         history.push(`/${uid}/courses`);  // send user back to courses page
       } catch (err) {
         console.log('authSubmitHandler login Error');
@@ -145,7 +145,7 @@ const Auth = () => {
         // console.log(responseData);
 
         // login the new user
-        const uid = auth.login(responseData.userId, responseData.token);
+        const uid = auth.login(responseData.userId, responseData.isAdmin, responseData.token);
         history.push(`/${uid}/courses`);  // send user back to courses page
       } catch (err) {
         console.log('authSubmitHandler: error in user signup');

@@ -31,7 +31,7 @@ const Auth = React.lazy(() => import('./user/pages/Auth'));
 
 const App = () => {
   // get global information from Context
-  const { token, login, logout, userId } = useAuth();
+  const { token, login, logout, userId, isAdmin } = useAuth();
 
   // define Routes based on login-status (via token)
   let routes;
@@ -80,6 +80,7 @@ const App = () => {
         isLoggedIn: !!token,
         token: token,
         userId: userId,
+        isAdmin: isAdmin,
         login: login,
         logout: logout
       }}

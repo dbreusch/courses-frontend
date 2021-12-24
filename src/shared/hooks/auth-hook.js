@@ -1,5 +1,5 @@
 // manage user login and logout
-// saves/manages userid, token and token expiration data (in local storage)
+// saves/manages userid, isAdmin, token and token expiration data (in local storage)
 // uses token expiration date to keep user logged in for a certain period (one hour)
 // user will be logged out automatically when token expires
 import { useState, useCallback, useEffect } from 'react';
@@ -12,17 +12,19 @@ let logoutTimer;
 export const useAuth = () => {
   // create state variables for userId, token & token expiration
   const [userId, setUserId] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
 
   // login the user
   // creates a token expiration time
   // saves userid, token and token expiration to local storage
-  const login = useCallback((uid, token, expirationDate) => {
+  const login = useCallback((uid, isAdmin, token, expirationDate) => {
     // console.log('auth-hook.login');
 
-    // save userId and token
+    // save userId, isAdmin and token
     setUserId(uid);
+    setIsAdmin(isAdmin);
     setToken(token);
 
     // determine token expiration; assumes one hour from now
@@ -35,6 +37,7 @@ export const useAuth = () => {
     try {
       localStorage.setItem('userData', JSON.stringify({
         userId: uid,
+        isAdmin: isAdmin,
         token: token,
         expiration: newTokenExpirationDate.toISOString()
       }));
@@ -57,6 +60,7 @@ export const useAuth = () => {
 
     // clear state variables
     setUserId(null);
+    setIsAdmin(null);
     setToken(null);
     setTokenExpirationDate(null);
 
@@ -84,7 +88,12 @@ export const useAuth = () => {
       storedData.token &&
       new Date(storedData.expiration) > new Date()
     ) {
-      login(storedData.userId, storedData.token, new Date(storedData.expiration));
+      login(
+        storedData.userId,
+        storedData.isAdmin,
+        storedData.token,
+        new Date(storedData.expiration)
+      );
     }
   }, [login]);
 
@@ -98,5 +107,5 @@ export const useAuth = () => {
     }
   }, [token, logout, tokenExpirationDate]);
 
-  return { token, login, logout, userId };
+  return { token, login, logout, userId, isAdmin };
 };
