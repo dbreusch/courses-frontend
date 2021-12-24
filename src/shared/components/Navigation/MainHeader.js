@@ -1,10 +1,13 @@
 // container to hold the page header
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/auth-context';
 
 import './MainHeader.css';
 
 const MainHeader = props => {
-    return <header className="main-header">
+    const auth = useContext(AuthContext);
+
+    return <header className={`main-header ${auth.isAdmin ? "main-header-admin" : ''}`}>
         {props.children}
     </header>;
 };
