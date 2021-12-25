@@ -33,11 +33,7 @@ const CourseList = props => {
       {props.items.map(course => (
         <CourseSummary
           key={course.id}
-          id={course.id}
-          title={course.title}
-          instructor={course.instructor}
-          description={course.description}
-          creatorId={course.creator}
+          course={course}
           onDelete={props.onDeletePlace}
         />
       ))}

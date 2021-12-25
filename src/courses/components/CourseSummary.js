@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
-// import Map from '../../shared/components/UIElements/Map';
+import CourseDetails from '../../shared/components/UIElements/CourseDetails';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -17,7 +17,7 @@ const CourseItem = props => {
 
   const history = useHistory();
 
-  // const [showMap, setShowMap] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
@@ -25,9 +25,9 @@ const CourseItem = props => {
 
   // const assetUrl = process.env.REACT_APP_ASSET_URL;
 
-  // const openMapHandler = () => setShowMap(true);
+  const openDetailsHandler = () => setShowDetails(true);
 
-  // const closeMapHandler = () => setShowMap(false);
+  const closeDetailsHandler = () => setShowDetails(false);
 
   const showDeleteWarningHandler = () => {
     setShowConfirmModal(true);
@@ -41,14 +41,14 @@ const CourseItem = props => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `${backendUrl}:${backendPort}/${props.id}`,
+        `${backendUrl}:${backendPort}/${props.course.id}`,
         'DELETE',
         null,
         {
           'Authorization': 'Bearer ' + auth.token
         }
       );
-      props.onDelete(props.id);
+      props.onDelete(props.course.id);
       history.push(`/${auth.userId}/courses`);  // send user back to courses page
     } catch (err) {
       console.log(err.message);
@@ -56,31 +56,30 @@ const CourseItem = props => {
   };
 
   let desc = '';
-  if (props.description) {
-    desc = props.description;
-    if (props.description.length > 25) {
-      desc = props.description.slice(0, 24) + "...";
+  if (props.course.description) {
+    desc = props.course.description;
+    if (props.course.description.length > 25) {
+      desc = props.course.description.slice(0, 24) + "...";
     }
   }
 
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {/* <Modal
-        show={showMap}
-        onCancel={closeMapHandler}
-        header={props.address}
+      <Modal
+        show={showDetails}
+        onCancel={closeDetailsHandler}
+        header={props.course.title}
         contentClass="course-summary__modal-content"
-        footerClass="course-summary__modal-actions"
-        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+        footerClass="course-summary__modal-actions center"
+        footer={<Button onClick={closeDetailsHandler}>CLOSE</Button>}
       >
-        <div className="map-container">
-          <Map
-            center={props.coordinates}
-            zoom={16}
+        <div className="details-container">
+          <CourseDetails
+            creatorId={props.creatorId}
           />
         </div>
-      </Modal> */}
+      </Modal>
 
       <Modal
         show={showConfirmModal}
@@ -100,28 +99,31 @@ const CourseItem = props => {
       <li className="course-summary">
         <Card className="course-summary__content">
           {isLoading && <LoadingSpinner asOverlay />}
-          {/* <div className="course-summary__image">
-            <img src={`${assetUrl}/${props.image}`} alt={props.title} />
-          </div> */}
           <div className="course-summary__info">
-            <h2>{props.title}</h2>
-            <h3>{props.instructor}</h3>
+            <h2>{props.course.title}</h2>
+            <h3>{props.course.instructor}</h3>
             <p>{desc}</p>
           </div>
           <div className="course-summary__actions">
-            {/* <Button inverse onClick={openMapHandler}>
-              VIEW ON MAP
-            </Button> */}
-            {auth.userId === props.creatorId && (
-              <Button to={`/courses/${props.id}`}>EDIT</Button>
-            )}
+            <Button inverse onClick={openDetailsHandler}>
+              DETAILS
+            </Button>
 
-            {auth.userId === props.creatorId && (
-              <Button danger onClick={showDeleteWarningHandler}
-              >DELETE
+            {auth.userId === props.course.creator && (
+              <Button to={`/courses/${props.course.id}`}>
+                EDIT
               </Button>
             )}
-            <Button to={`/`} cancel>BACK</Button>
+
+            {auth.userId === props.course.creator && (
+              <Button danger onClick={showDeleteWarningHandler}>
+                DELETE
+              </Button>
+            )}
+
+            <Button to={`/`} cancel>
+              BACK
+            </Button>
           </div>
         </Card>
       </li>
