@@ -70,8 +70,8 @@ const CourseItem = props => {
         show={showMap}
         onCancel={closeMapHandler}
         header={props.address}
-        contentClass="course-item__modal-content"
-        footerClass="course-item__modal-actions"
+        contentClass="course-summary__modal-content"
+        footerClass="course-summary__modal-actions"
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
@@ -86,7 +86,7 @@ const CourseItem = props => {
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure?"
-        footerClass="course-item__modal-actions"
+        footerClass="course-summary__modal-actions"
         footer={
           <React.Fragment>
             <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
@@ -97,18 +97,18 @@ const CourseItem = props => {
           Please note that it can't be undone thereafter.</p>
       </Modal>
 
-      <li className="course-item">
-        <Card className="course-item__content">
+      <li className="course-summary">
+        <Card className="course-summary__content">
           {isLoading && <LoadingSpinner asOverlay />}
-          {/* <div className="course-item__image">
+          {/* <div className="course-summary__image">
             <img src={`${assetUrl}/${props.image}`} alt={props.title} />
           </div> */}
-          <div className="course-item__info">
+          <div className="course-summary__info">
             <h2>{props.title}</h2>
             <h3>{props.instructor}</h3>
             <p>{desc}</p>
           </div>
-          <div className="course-item__actions">
+          <div className="course-summary__actions">
             {/* <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button> */}

@@ -1,63 +1,63 @@
-.course-item {
+.course-summary {
   margin: 1rem 0;
 }
 
-.course-item__content {
+.course-summary__content {
   padding: 0;
 }
 
-.course-item__info {
+.course-summary__info {
   padding: 1rem;
   text-align: center;
 }
 
-.course-item__image {
+.course-summary__image {
   width: 100%;
   height: 12.5rem;
   margin-right: 1.5rem;
 }
 
-.course-item__image img {
+.course-summary__image img {
   width: 100%;
   height: 100%;
   /* object-fit: cover; */
   object-fit: contain;
 }
 
-.course-item__info h2,
-.course-item__info h3,
-.course-item__info p {
+.course-summary__info h2,
+.course-summary__info h3,
+.course-summary__info p {
   margin: 0 0 0.5rem 0;
 }
 
-.course-item__info h2 {
+.course-summary__info h2 {
   font-size: 1.2rem;
 }
 
-.course-item__info h3 {
+.course-summary__info h3 {
   font-size: 1.0rem;
 }
 
-.course-item__info p {
+.course-summary__info p {
   font-size: 0.9rem;
 }
 
-.course-item__actions {
+.course-summary__actions {
   padding: 1rem;
   text-align: center;
   border-top: 1px solid #ccc;
 }
 
-.course-item__modal-content {
+.course-summary__modal-content {
   padding: 0;
 }
 
-.course-item__modal-actions {
+.course-summary__modal-actions {
   text-align: right;
 }
 
-.course-item__actions button,
-.course-item__actions a {
+.course-summary__actions button,
+.course-summary__actions a {
   margin: 0.5rem;
 }
 
@@ -67,7 +67,7 @@
 }
 
 @media (min-width: 768px) {
-  .course-item__image {
+  .course-summary__image {
     height: 20rem;
   }
 }
