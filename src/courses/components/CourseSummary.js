@@ -9,7 +9,7 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import './CourseItem.css';
+import './CourseSummary.css';
 
 const CourseItem = props => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -55,6 +55,14 @@ const CourseItem = props => {
     }
   };
 
+  let desc = '';
+  if (props.description) {
+    desc = props.description;
+    if (props.description.length > 25) {
+      desc = props.description.slice(0, 24) + "...";
+    }
+  }
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -98,7 +106,7 @@ const CourseItem = props => {
           <div className="course-item__info">
             <h2>{props.title}</h2>
             <h3>{props.instructor}</h3>
-            <p>{props.description}</p>
+            <p>{desc}</p>
           </div>
           <div className="course-item__actions">
             {/* <Button inverse onClick={openMapHandler}>

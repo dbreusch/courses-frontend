@@ -2,7 +2,7 @@ import React from 'react';
 
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
-import CourseItem from './CourseItem';
+import CourseSummary from './CourseSummary';
 import './CourseList.css';
 
 const CourseList = props => {
@@ -31,14 +31,14 @@ const CourseList = props => {
   return (
     <ul className="course-list">
       {props.items.map(course => (
-        <CourseItem
+        <CourseSummary
           key={course.id}
           id={course.id}
           title={course.title}
           instructor={course.instructor}
           description={course.description}
           creatorId={course.creator}
-          onDelete={props.onDeleteCourse}
+          onDelete={props.onDeletePlace}
         />
       ))}
     </ul>

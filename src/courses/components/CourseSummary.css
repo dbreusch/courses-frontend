@@ -30,6 +30,18 @@
   margin: 0 0 0.5rem 0;
 }
 
+.course-item__info h2 {
+  font-size: 1.2rem;
+}
+
+.course-item__info h3 {
+  font-size: 1.0rem;
+}
+
+.course-item__info p {
+  font-size: 0.9rem;
+}
+
 .course-item__actions {
   padding: 1rem;
   text-align: center;
