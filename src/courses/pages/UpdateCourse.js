@@ -146,7 +146,7 @@ const UpdateCourse = () => {
         <form className="course-form" onSubmit={courseUpdateSubmitHandler}>
           {
             formFields.map(field => {
-              if (field.isUpdateable) {
+              if (field.isUpdateable || auth.isAdmin) {
                 return <Input
                   key={field.id}
                   id={field.id}
