@@ -146,7 +146,7 @@ const UpdateCourse = () => {
         <form className="course-form" onSubmit={courseUpdateSubmitHandler}>
           {
             formFields.map(field => {
-              if (field.updateable) {
+              if (field.isUpdateable) {
                 return <Input
                   key={field.id}
                   id={field.id}
@@ -159,6 +159,7 @@ const UpdateCourse = () => {
                   // eslint-disable-next-line
                   initialValue={eval(field.initialValue)}
                   initialIsValid={true}
+                  formDisplay={field.formDisplay}
                 />;
               } else {
                 return '';
@@ -166,7 +167,7 @@ const UpdateCourse = () => {
             }
             )
           }
-          <div className="course-item__actions">
+          <div className="course-item__actions center">
             <Button type="submit" disabled={!formState.isValid}>
               UPDATE COURSE
             </Button>

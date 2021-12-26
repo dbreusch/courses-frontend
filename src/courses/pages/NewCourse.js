@@ -101,6 +101,7 @@ const NewCourse = () => {
               onInput={inputHandler}
               initialValue=''
               initialIsValid={field.initialIsValid}
+              formDisplay={field.formDisplay}
             />;
           }
           )
