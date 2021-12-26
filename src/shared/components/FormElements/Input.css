@@ -1,5 +1,5 @@
 .form-control {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 .form-control label,
@@ -41,7 +41,16 @@
   background: #ffd1d1;
 }
 
-/* set field widths */
+.form-control--inline label,
+.form-control--inline input,
+.form-control--inline textarea
+{
+  display: inline;
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* set custom field widths */
 #n
 {
   width: 5rem;
@@ -63,20 +72,23 @@
 
 #instructor
 {
-  width: 30rem;
+  width: 25rem;
 }
 
 #dateBought,
-#dateFinished
+#dateStarted,
+#dateCompleted
 {
   width: 10rem;
 }
 
 /* mark optional fields with different background color */
-#dateFinished,
+#dateBought,
+#dateStarted,
+#dateCompleted,
 #description,
 #notes,
 #provider
 {
-  background: #caeee6;
+  background: #d4f3ec;
 }

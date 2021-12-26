@@ -93,7 +93,7 @@ const Input = props => {
 
     return <div className={`form-control
     ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}
-    `}>
+    ${props.formDisplay}`}>
         <label htmlFor={props.id}>{props.label}</label>
         {formElement}
         {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
