@@ -141,7 +141,8 @@ export const formFields = [
     "initialValue": "loadedCourse.description",
     "initialIsValid": true,
     "isPublic": true,
-    "isUpdateable": true
+    "isUpdateable": true,
+    "isScrollable": true
   },
   {
     "id": "notes",
@@ -152,6 +153,7 @@ export const formFields = [
     "initialValue": "loadedCourse.notes",
     "initialIsValid": false,
     "isPublic": true,
-    "isUpdateable": true
+    "isUpdateable": true,
+    "isScrollable": true
   },
 ];

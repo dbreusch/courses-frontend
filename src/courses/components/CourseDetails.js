@@ -34,13 +34,16 @@ const CourseDetails = props => {
       fieldValue = null;
     }
 
+    if (fieldLabel && field.isScrollable) {
+      fieldValueClass = 'course-details--scrollbar';
+    }
     if (fieldLabel && !fieldValue) {
       fieldValue = 'Empty';
       fieldValueClass = 'course-details--italic';
     }
 
     return <React.Fragment key={index}>
-      <div className="course-details--field" key={index}>
+      <div className="course-details--container" key={index}>
         <p className="course-details--label">{fieldLabel} </p>
         <p className={`course-details--value ${fieldValueClass}`}>{fieldValue} </p>
         {/* {field.id === "n" && <p className="course-details--value">{props.course["purchaseSequence"]} </p>}

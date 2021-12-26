@@ -72,7 +72,7 @@ const CourseItem = props => {
         header={props.course.title}
         contentClass="course-summary__modal-content"
         footerClass="course-summary__modal-actions center"
-        footer={<Button onClick={closeDetailsHandler}>CLOSE</Button>}
+        footer={<Button inverse onClick={closeDetailsHandler}>CLOSE</Button>}
       >
         <div className="details-container">
           <CourseDetails
@@ -109,13 +109,13 @@ const CourseItem = props => {
               DETAILS
             </Button>
 
-            {auth.userId === props.course.creator && (
+            {(auth.userId === props.course.creator || auth.isAdmin) && (
               <Button to={`/courses/${props.course.id}`}>
                 EDIT
               </Button>
             )}
 
-            {auth.userId === props.course.creator && (
+            {(auth.userId === props.course.creator || auth.isAdmin) && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>

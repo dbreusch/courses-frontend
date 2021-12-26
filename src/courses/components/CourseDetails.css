@@ -5,23 +5,7 @@
   box-shadow: none;
 }
 
-/* .course-details--list {
-  list-style: none;
-  margin: 1rem auto;
-  padding: 0;
-  max-width: 40rem;
-} */
-
-/* .course-details {
-  margin: 0;
-  margin-left: 1rem;
-  padding: 0.1rem;
-  width: 10rem;
-  max-width: unset;
-  display: inline-block;
-} */
-
-.course-details--field {
+.course-details--container {
   display: flex;
   align-items: flex-start;
 }
@@ -41,6 +25,17 @@
   padding: 0.1rem;
   width: 25rem;
   display: inline-block;
+}
+
+.course-details--scrollbar {
+  height: 10rem;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  overflow: auto;
+  border-style: solid;
+  border-color: #b0b0b0;
+  border-width: 1px;
+  border-radius: 3px;
 }
 
 .course-details--italic {

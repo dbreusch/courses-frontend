@@ -61,6 +61,10 @@
   margin: 0.5rem;
 }
 
+.details-container {
+  background-color: white;
+}
+
 @media (min-width: 768px) {
   .course-summary__image {
     height: 20rem;
