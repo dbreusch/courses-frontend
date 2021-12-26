@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
-import CourseDetails from '../../shared/components/UIElements/CourseDetails';
+import CourseDetails from './CourseDetails';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -76,7 +76,7 @@ const CourseItem = props => {
       >
         <div className="details-container">
           <CourseDetails
-            creatorId={props.creatorId}
+            course={props.course}
           />
         </div>
       </Modal>

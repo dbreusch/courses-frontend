@@ -61,11 +61,6 @@
   margin: 0.5rem;
 }
 
-.details-container {
-  height: 15rem;
-  width: 100%;
-}
-
 @media (min-width: 768px) {
   .course-summary__image {
     height: 20rem;

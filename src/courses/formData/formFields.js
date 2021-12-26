@@ -13,7 +13,9 @@ export const formFields = [
     "type": "number",
     "errorText": "Please enter an integer purchase sequence > 0.",
     "initialValue": "loadedCourse.purchaseSequence",
-    "updateable": "true"
+    "isPublic": false,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "title",
@@ -21,7 +23,8 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)],
     "errorText": "Title must be at least five characters.",
     "initialValue": "loadedCourse.title",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true
   },
   {
     "id": "category",
@@ -29,7 +32,9 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE()],
     "errorText": "Please enter a valid category value.",
     "initialValue": "loadedCourse.category",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "tools",
@@ -37,7 +42,9 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE()],
     "errorText": "Please enter a valid tools value.",
     "initialValue": "loadedCourse.tools",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "hours",
@@ -45,7 +52,9 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
     "errorText": "# of hours value must be > 0.",
     "initialValue": "loadedCourse.hours",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "sections",
@@ -53,7 +62,9 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
     "errorText": "Please enter an integer # of sections value > 0.",
     "initialValue": "loadedCourse.sections",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "lectures",
@@ -61,7 +72,9 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
     "errorText": "Please enter an integer # of lectures value > 0.",
     "initialValue": "loadedCourse.lectures",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "instructor",
@@ -69,16 +82,43 @@ export const formFields = [
     "validators": [VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(3)],
     "errorText": "Instructor name must be at least three characters.",
     "initialValue": "loadedCourse.instructor",
-    "updateable": "true"
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
+    "id": "provider",
+    "label": "Provider",
+    "validators": [],
+    "errorText": "Please enter a valid provider name.",
+    "initialValue": "loadedCourse.provider",
+    "initialIsValid": true,
+    "isPublic": true,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
+  },
+{
     "id": "dateBought",
     "label": "Date Bought",
     "type": "date",
     "validators": [VALIDATOR_REQUIRE()],
     "errorText": "Please enter a valid bought date.",
     "initialValue": "loadedCourse.dateBought",
-    "updateable": "true"
+    "isPublic": false,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
+  },
+  {
+    "id": "dateStarted",
+    "label": "Date Started",
+    "type": "date",
+    "validators": [],
+    "errorText": "Please enter a valid start date.",
+    "initialValue": "loadedCourse.dateStarted",
+    "initialIsValid": true,
+    "isPublic": false,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "dateCompleted",
@@ -87,8 +127,10 @@ export const formFields = [
     "validators": [],
     "errorText": "Please enter a valid completion date.",
     "initialValue": "loadedCourse.dateCompleted",
-    "initialIsValid": "true",
-    "updateable": "true"
+    "initialIsValid": true,
+    "isPublic": false,
+    "isUpdateable": true,
+    "formDisplay": "form-control--inline"
   },
   {
     "id": "description",
@@ -97,8 +139,9 @@ export const formFields = [
     "validators": [],
     "errorText": "Please enter a valid description.",
     "initialValue": "loadedCourse.description",
-    "initialIsValid": "true",
-    "updateable": "true"
+    "initialIsValid": true,
+    "isPublic": true,
+    "isUpdateable": true
   },
   {
     "id": "notes",
@@ -107,16 +150,8 @@ export const formFields = [
     "validators": [],
     "errorText": "Please enter valid notes.",
     "initialValue": "loadedCourse.notes",
-    "initialIsValid": "true",
-    "updateable": "true"
-  },
-  {
-    "id": "provider",
-    "label": "Provider",
-    "validators": [],
-    "errorText": "Please enter a valid provider name.",
-    "initialValue": "loadedCourse.provider",
-    "initialIsValid": "true",
-    "updateable": "true"
+    "initialIsValid": false,
+    "isPublic": true,
+    "isUpdateable": true
   },
 ];
