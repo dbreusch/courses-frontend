@@ -5,7 +5,6 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-// import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import { useForm } from '../../shared/hooks/form-hook';
 import { FormData } from '../formData/FormData';
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -34,21 +33,10 @@ const NewCourse = () => {
   const courseSubmitHandler = async event => {
     event.preventDefault();
 
-    // Note: that the purchaseSequence field being referred to as "n" is an artifact
+    // Note: that the purchaseSequence field is being referred to as "n" is an artifact
     // of support for loading courses from an Excel spreadsheet, where this is the
     // column title
     try {
-      // const formData = new FormData();
-      // formData.append('n', formState.inputs.purchaseSequence.value);
-      // formData.append('title', formState.inputs.title.value);
-      // formData.append('category', formState.inputs.category.value);
-      // formData.append('tools', formState.inputs.tools.value);
-      // formData.append('hours', formState.inputs.hours.value);
-      // formData.append('sections', formState.inputs.sections.value);
-      // formData.append('lectures', formState.inputs.lectures.value);
-      // formData.append('instructor', formState.inputs.instructor.value);
-      // formData.append('dateBought', formState.inputs.dateBought.value);
-      // formData.append('dateFinished', formState.inputs.dateFinished.value);
       await sendRequest(
         `${backendUrl}:${backendPort}/addCourse`,
         'POST',
@@ -106,105 +94,14 @@ const NewCourse = () => {
           }
           )
         }
-        {/* <Input
-          id="purchaseSequence"
-          element="input"
-          type="text"
-          label="Purchase Sequence"
-          validators={[VALIDATOR_REQUIRE()]}
-          onInput={inputHandler}
-          errorText="Please enter a valid purchase sequence"
-        />
-        <Input
-          id="title"
-          element="input"
-          type="text"
-          label="Title"
-          validators={[VALIDATOR_REQUIRE()]}
-          onInput={inputHandler}
-          errorText="Please enter a valid title"
-        />
-        <Input
-          id="category"
-          element="textarea"
-          label="Category"
-          validators={[VALIDATOR_REQUIRE()]}
-          onInput={inputHandler}
-          errorText="Please enter a valid category"
-        />
-        <Input
-          id="tools"
-          element="input"
-          type="text"
-          label="Tools"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid tool (or tools)."
-        />
-        <Input
-          id="hours"
-          element="input"
-          type="text"
-          label="Hours"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid number of hours."
-        />
-        <Input
-          id="sections"
-          element="input"
-          type="text"
-          label="Sections"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid number of sections."
-        />
-        <Input
-          id="lectures"
-          element="input"
-          type="text"
-          label="Lectures"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid number of lectures."
-        />
-        <Input
-          id="instructor"
-          element="input"
-          type="text"
-          label="Instructor"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid instructor."
-        />
-        <Input
-          id="dateBought"
-          element="input"
-          type="text"
-          label="Date Bought"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid bought date."
-        />
-        <Input
-          id="dateFinished"
-          element="input"
-          type="text"
-          label="Date Finished"
-          validators={[VALIDATOR_REQUIRE]}
-          onInput={inputHandler}
-          errorText="Please enter a valid finished date."
-        /> */}
-        {/* <ImageUpload
-          id="image"
-          onInput={inputHandler}
-          errorText="Please provide an image."
-        /> */}
-        <div className="course-item__actions">
+
+        <div className="course-item__actions center">
           <Button type="submit" disabled={!formState.isValid}>
             ADD COURSE
           </Button>
-          <Button to={`/`} cancel>CANCEL</Button>
+          <Button to={`/`} cancel>
+            CANCEL
+          </Button>
         </div>
       </form>
     </React.Fragment>
