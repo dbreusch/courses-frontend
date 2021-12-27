@@ -1,9 +1,14 @@
 .course-summary {
   margin: 1rem 0;
+  display: flex;
 }
 
 .course-summary__content {
   padding: 0;
+  flex-grow: 1;
+  min-width: 20rem;
+  box-shadow: 5px 5px gray;
+  box-shadow: 8px 8px 2px 1px #a7abac;
 }
 
 .course-summary__info {
