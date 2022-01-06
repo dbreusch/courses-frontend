@@ -1,15 +1,15 @@
-import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
-import { VALIDATOR_NUMERIC } from '../../shared/util/validators';
-import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
-import { VALIDATOR_GT } from '../../shared/util/validators';
-import { VALIDATOR_MIN } from '../../shared/util/validators';
+// import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
+// import { VALIDATOR_NUMERIC } from '../../shared/util/validators';
+// import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
+// import { VALIDATOR_GT } from '../../shared/util/validators';
+// import { VALIDATOR_MIN } from '../../shared/util/validators';
 
-export const formFields = [
+export const formMetaData = [
   {
     "id": "n",
     "alias": "purchaseSequence",
     "label": "Purchase Sequence",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_MIN(1)],
+    "constraints": [['require'], ['numeric_int'], ['min', 1]],
     "type": "number",
     "errorText": "Please enter an integer purchase sequence > 0.",
     "initialValue": "loadedCourse.purchaseSequence",
@@ -20,7 +20,7 @@ export const formFields = [
   {
     "id": "title",
     "label": "Title",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)],
+    "constraints": [['require'], ['min_length', 5]],
     "errorText": "Title must be at least five characters.",
     "initialValue": "loadedCourse.title",
     "isPublic": true,
@@ -29,7 +29,7 @@ export const formFields = [
   {
     "id": "category",
     "label": "Category",
-    "validators": [VALIDATOR_REQUIRE()],
+    "constraints": [['require']],
     "errorText": "Please enter a valid category value.",
     "initialValue": "loadedCourse.category",
     "isPublic": true,
@@ -39,7 +39,7 @@ export const formFields = [
   {
     "id": "tools",
     "label": "Tools",
-    "validators": [VALIDATOR_REQUIRE()],
+    "constraints": [['require']],
     "errorText": "Please enter a valid tools value.",
     "initialValue": "loadedCourse.tools",
     "isPublic": true,
@@ -49,7 +49,7 @@ export const formFields = [
   {
     "id": "hours",
     "label": "Hours",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
+    "constraints": [['require'], ['numeric_float'], ['gt', 0]],
     "errorText": "# of hours value must be > 0.",
     "initialValue": "loadedCourse.hours",
     "isPublic": true,
@@ -59,7 +59,7 @@ export const formFields = [
   {
     "id": "sections",
     "label": "Sections",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
+    "constraints": [['require'], ['numeric_int'], ['gt', 0]],
     "errorText": "Please enter an integer # of sections value > 0.",
     "initialValue": "loadedCourse.sections",
     "isPublic": true,
@@ -69,7 +69,7 @@ export const formFields = [
   {
     "id": "lectures",
     "label": "Lectures",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_NUMERIC(), VALIDATOR_GT(0)],
+    "constraints": [['require'], ['numeric_int'], ['gt', 0]],
     "errorText": "Please enter an integer # of lectures value > 0.",
     "initialValue": "loadedCourse.lectures",
     "isPublic": true,
@@ -79,7 +79,7 @@ export const formFields = [
   {
     "id": "instructor",
     "label": "Instructor",
-    "validators": [VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(3)],
+    "constraints": [['require'], ['min_length', 3]],
     "errorText": "Instructor name must be at least three characters.",
     "initialValue": "loadedCourse.instructor",
     "isPublic": true,
@@ -89,7 +89,7 @@ export const formFields = [
   {
     "id": "provider",
     "label": "Provider",
-    "validators": [],
+    "constraints": [],
     "errorText": "Please enter a valid provider name.",
     "initialValue": "loadedCourse.provider",
     "initialIsValid": true,
@@ -97,11 +97,11 @@ export const formFields = [
     "isUpdateable": true,
     "formDisplay": "form-control--inline"
   },
-{
+  {
     "id": "dateBought",
     "label": "Date Bought",
     "type": "date",
-    "validators": [VALIDATOR_REQUIRE()],
+    "constraints": [['require']],
     "errorText": "Please enter a valid bought date.",
     "initialValue": "loadedCourse.dateBought",
     "isPublic": false,
@@ -112,7 +112,7 @@ export const formFields = [
     "id": "dateStarted",
     "label": "Date Started",
     "type": "date",
-    "validators": [],
+    "constraints": [],
     "errorText": "Please enter a valid start date.",
     "initialValue": "loadedCourse.dateStarted",
     "initialIsValid": true,
@@ -124,7 +124,7 @@ export const formFields = [
     "id": "dateCompleted",
     "label": "Date Completed",
     "type": "date",
-    "validators": [],
+    "constraints": [],
     "errorText": "Please enter a valid completion date.",
     "initialValue": "loadedCourse.dateCompleted",
     "initialIsValid": true,
@@ -136,7 +136,7 @@ export const formFields = [
     "id": "description",
     "element": "textarea",
     "label": "Description",
-    "validators": [],
+    "constraints": [],
     "errorText": "Please enter a valid description.",
     "initialValue": "loadedCourse.description",
     "initialIsValid": true,
@@ -148,7 +148,7 @@ export const formFields = [
     "id": "notes",
     "element": "textarea",
     "label": "Notes",
-    "validators": [],
+    "constraints": [],
     "errorText": "Please enter valid notes.",
     "initialValue": "loadedCourse.notes",
     "initialIsValid": false,

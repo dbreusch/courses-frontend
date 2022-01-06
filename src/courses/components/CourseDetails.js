@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../shared/context/auth-context';
-import { FormData } from '../formData/FormData';
+import { CourseMetaData } from '../formData/CourseMetaData';
 import Card from '../../shared/components/UIElements/Card';
 import './CourseDetails.css';
 
-const formData = new FormData();
+const formData = new CourseMetaData();
 const formFields = formData.formFields;
 
 const CourseDetails = props => {

@@ -34,7 +34,7 @@ const CourseList = props => {
         <CourseSummary
           key={course.id}
           course={course}
-          onDelete={props.onDeletePlace}
+          onDelete={props.onDeleteCourse}
         />
       ))}
     </ul>
