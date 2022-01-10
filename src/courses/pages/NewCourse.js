@@ -25,7 +25,6 @@ const NewCourse = () => {
   const history = useHistory();
 
   const [fullMetadata, setFullMetadata] = useState();
-  // const [formData, setFormData] = useState(new CourseMetadata());
   const [formData, ] = useState(new CourseMetadata());
   const [formInput, setFormInput] = useState({});
 
