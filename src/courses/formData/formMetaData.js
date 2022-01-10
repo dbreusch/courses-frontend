@@ -1,3 +1,5 @@
+// 1/10/22 deprecated, replaced by fetch-from-API, can probably be removed
+
 // import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
 // import { VALIDATOR_NUMERIC } from '../../shared/util/validators';
 // import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
