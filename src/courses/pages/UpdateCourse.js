@@ -3,19 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
-// import Card from '../../shared/components/UIElements/Card';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
-import { CourseMetadata } from '../formData/CourseMetadata';
+import { CourseMetadata } from '../metadata/CourseMetadata';
 import './CourseForm.css';
-
-// const formData = new CourseMetadata();
-// const formMetaData = formData.formMetaData;
-// const formInput = formData.formInput;
-// const validFormKeys = formData.validFormKeys;
 
 const UpdateCourse = () => {
   const auth = useContext(AuthContext);
@@ -23,7 +17,7 @@ const UpdateCourse = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [loadedCourse, setLoadedCourse] = useState();
-  const [fullMetadata, setFullMetadata] = useState();
+  const [apiMetadata, setApiMetadata] = useState();
   const [formData,] = useState(new CourseMetadata());
   const [formInput, setFormInput] = useState({});
   const [validFormKeys, setValidFormKeys] = useState([]);
@@ -31,10 +25,7 @@ const UpdateCourse = () => {
   const courseId = useParams().courseId;
   const history = useHistory();
 
-  const [formState, inputHandler, setFormData] = useForm(
-    formInput,
-    false
-  );
+  const [formState, inputHandler, setFormData] = useForm(formInput, false);
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
   const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
@@ -43,11 +34,11 @@ const UpdateCourse = () => {
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
-        // console.log('Fetching metadata...');
+        // console.log('UpdateCourse: fetchMetadata: Fetching metadata...');
         const responseData = await sendRequest(`${backendUrl}:${backendPort}/getMetadata`);
-        setFullMetadata(responseData.metadata);
+        setApiMetadata(responseData.metadata);
       } catch (err) {
-        console.log('Error fetching metadata');
+        console.log('UpdateCourse: fetchMetadata: Error fetching metadata');
         console.log(err.message);
       }
     };
@@ -56,26 +47,26 @@ const UpdateCourse = () => {
 
   // update formData object when metadata changes
   useEffect(() => {
-    if (fullMetadata) {
-      // console.log('Updating full metadata...');
-      formData.fullMetadata = fullMetadata;
+    if (apiMetadata) {
+      // console.log('UpdateCourse: useEffect formData: Updating full metadata...');
+      formData.metadata = apiMetadata;
     }
     // eslint-disable-next-line
-  }, [fullMetadata]);
+  }, [apiMetadata]);
 
   // update formInput when metadata changes
   useEffect(() => {
-    // console.log('Updating form input...');
+    // console.log('UpdateCourse: useEffect formData.formInput: Updating form input...');
     setFormInput(formData.formInput);
     // eslint-disable-next-line
-  }, [fullMetadata]);
+  }, [apiMetadata]);
 
   // update validFormKeys when metadata changes
   useEffect(() => {
-    // console.log('Updating form keys...');
+    // console.log('UpdateCourse: useEffect formData.validFormKeys: Updating form keys...');
     setValidFormKeys(formData.validFormKeys);
     // eslint-disable-next-line
-  }, [fullMetadata]);
+  }, [apiMetadata]);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -103,6 +94,7 @@ const UpdateCourse = () => {
           true
         );
       } catch (err) {
+        console.log('UpdateCourse: fetchCourse: error fetching course');
         console.log(err.message);
       }
     };
@@ -123,12 +115,12 @@ const UpdateCourse = () => {
         if (validFormKeys.includes(formKey)) {
           if (formKey === 'n') {
             if (formValue['value'] !== loadedCourse['purchaseSequence']) {
-              // console.log(`Key purchaseSequence: ${loadedCourse['purchaseSequence']} to ${formValue['value']}`);
+              // console.log(`UpdateCourse: Key purchaseSequence: ${loadedCourse['purchaseSequence']} to ${formValue['value']}`);
               updateBody['purchaseSequence'] = formValue['value'];
             }
           } else {
             if (formValue['value'] !== loadedCourse[formKey]) {
-              // console.log(`Key ${formKey}: ${loadedCourse[formKey]} to ${formValue['value']}`);
+              // console.log(`UpdateCourse: Key ${formKey}: ${loadedCourse[formKey]} to ${formValue['value']}`);
               updateBody[formKey] = formValue['value'];
             }
           }
@@ -137,8 +129,6 @@ const UpdateCourse = () => {
 
       if (Object.keys(updateBody).length > 0) {
         const updateObj = { "update": updateBody };
-        // console.log(updateBody);
-        // console.log(updateObj);
         await sendRequest(
           `${backendUrl}:${backendPort}/${courseId}`,
           'PATCH',
@@ -153,29 +143,10 @@ const UpdateCourse = () => {
       }
       history.push(`/${auth.userId}/courses`);
     } catch (err) {
-      // console.log(err.message);
+      console.log('UpdateCourse: fetchCourse: error with course updating');
+      console.log(err.message);
     }
   };
-
-  // 1/10/22 deprecated
-  // if (isLoading) {
-  //   return (
-  //     <div className="center">
-  //       <LoadingSpinner />
-  //     </div>
-  //   );
-  // }
-
-  // 1/10/22 deprecated
-  // if (!isLoading && !loadedCourse && !error) {
-  //   return (
-  //     <div className="center">
-  //       <Card>
-  //         <h2>UpdateCourse: Could not find course!</h2>
-  //       </Card>
-  //     </div>
-  //   );
-  // }
 
   // 12/13/21
   // There is NO WAY around using eval in the code below.  I tried using Function
@@ -195,7 +166,7 @@ const UpdateCourse = () => {
       {!isLoading && loadedCourse &&
         <form className="course-form" onSubmit={courseUpdateSubmitHandler}>
           {
-            formData.fullMetadata.map(field => {
+            formData.metadata.map(field => {
               if (field.isUpdateable || auth.isAdmin) {
                 return <Input
                   key={field.id}

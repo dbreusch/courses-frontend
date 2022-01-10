@@ -8,17 +8,14 @@ import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import { VALIDATOR_GT } from '../../shared/util/validators';
 import { VALIDATOR_MIN } from '../../shared/util/validators';
 
-// import { fullMetadata } from './fullMetadata';
-
 export class CourseMetadata {
   constructor() {
-    // this._fullMetadata = fullMetadata;
-    this._fullMetadata = [];
+    this._metadata = [];
   }
 
   addValidators() {
     // console.log('CourseMetadata: addValidators');
-    this._fullMetadata.forEach(field => {
+    this._metadata.forEach(field => {
       // console.log(field.id);
       field.validators = [];
       field.constraints.forEach(constraint => {
@@ -64,20 +61,20 @@ export class CourseMetadata {
     });
   }
 
-  get fullMetadata() {
-    return this._fullMetadata;
+  get metadata() {
+    return this._metadata;
   }
 
-  set fullMetadata(metadata) {
-    // console.log('CourseMetadata: set fullMetadata');
-    if (metadata.length > 0) {
+  set metadata(data) {
+    // console.log('CourseMetadata: set metadata');
+    if (data.length > 0) {
       // console.log('CourseMetadata: assigning');
-      this._fullMetadata = metadata;
+      this._metadata = data;
       // console.log('CourseMetadata: loading');
       this.addValidators();
     }
     // else {
-    //   console.log('CourseMetadata: metadata is empty');
+    //   console.log('CourseMetadata: set metadata input is empty');
     // }
   }
 
@@ -87,8 +84,8 @@ export class CourseMetadata {
 
   createFormInput() {
     let formInput = {};
-    for (let i = 0; i < this._fullMetadata.length; i++) {
-      formInput[this._fullMetadata[i].id] = { value: '', isValid: false };
+    for (let i = 0; i < this._metadata.length; i++) {
+      formInput[this._metadata[i].id] = { value: '', isValid: false };
     }
     return formInput;
   }
@@ -99,8 +96,8 @@ export class CourseMetadata {
 
   createValidFormKeys() {
     let validFormKeys = [];
-    for (let i = 0; i < this._fullMetadata.length; i++) {
-      validFormKeys.push(this._fullMetadata[i].id);
+    for (let i = 0; i < this._metadata.length; i++) {
+      validFormKeys.push(this._metadata[i].id);
     }
     return validFormKeys;
   }

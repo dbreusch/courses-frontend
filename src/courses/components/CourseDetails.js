@@ -3,19 +3,16 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
-import { CourseMetadata } from '../formData/CourseMetadata';
+import { CourseMetadata } from '../metadata/CourseMetadata';
 import Card from '../../shared/components/UIElements/Card';
 import './CourseDetails.css';
-
-// const formData = new CourseMetadata();
-// const formMetaData = formData.formMetaData;
 
 const CourseDetails = props => {
   const auth = useContext(AuthContext);
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const [fullMetadata, setFullMetadata] = useState();
+  const [apiMetadata, setApiMetadata] = useState();
   const [formData,] = useState(new CourseMetadata());
   // eslint-disable-next-line
   const [redo, setRedo] = useState(false);
@@ -29,11 +26,11 @@ const CourseDetails = props => {
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
-        // console.log('Fetching metadata...');
+        // console.log('CourseDetails: fetchMetadata: Fetching metadata...');
         const responseData = await sendRequest(`${backendUrl}:${backendPort}/getMetadata`);
-        setFullMetadata(responseData.metadata);
+        setApiMetadata(responseData.metadata);
       } catch (err) {
-        console.log('Error fetching metadata');
+        console.log('CourseDetails: fetchMetadata: Error fetching metadata');
         console.log(err.message);
       }
     };
@@ -42,18 +39,18 @@ const CourseDetails = props => {
 
   // update formData object when metadata changes
   useEffect(() => {
-    if (fullMetadata) {
-      // console.log('Updating full metadata...');
-      formData.fullMetadata = fullMetadata;
+    if (apiMetadata) {
+      // console.log('CourseDetails: useEffect formData: Updating full metadata...');
+      formData.metadata = apiMetadata;
       setRedo(true);
     }
     // eslint-disable-next-line
-  }, [fullMetadata]);
+  }, [apiMetadata]);
 
   // update renderItems when metadata changes
   useEffect(() => {
-    if (formData.fullMetadata && formData.fullMetadata.length > 0) {
-      renderItems.current = formData.fullMetadata.map((field, index) => {
+    if (formData.metadata && formData.metadata.length > 0) {
+      renderItems.current = formData.metadata.map((field, index) => {
         let fieldId;
         if (field.alias) {
           fieldId = field.alias;
@@ -94,7 +91,7 @@ const CourseDetails = props => {
       );
       setRedo(false);
     }
-  }, [formData.fullMetadata, auth.isAdmin, auth.userId, props.course]);
+  }, [formData.metadata, auth.isAdmin, auth.userId, props.course]);
 
   return (
     <React.Fragment>

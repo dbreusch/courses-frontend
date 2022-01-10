@@ -8,14 +8,8 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
-import { CourseMetadata } from '../formData/CourseMetadata';
+import { CourseMetadata } from '../metadata/CourseMetadata';
 import './CourseForm.css';
-
-// let formData = new CourseMetadata();
-// let formMetaData = formData.formMetaData;
-// let formInput = formData.formInput;
-// let formMetaData = [];
-// let formInput = {};
 
 const NewCourse = () => {
   const auth = useContext(AuthContext);
@@ -24,14 +18,11 @@ const NewCourse = () => {
 
   const history = useHistory();
 
-  const [fullMetadata, setFullMetadata] = useState();
-  const [formData, ] = useState(new CourseMetadata());
+  const [apiMetadata, setApiMetadata] = useState();
+  const [formData,] = useState(new CourseMetadata());
   const [formInput, setFormInput] = useState({});
 
-  const [formState, inputHandler] = useForm(
-    formInput,
-    false
-  );
+  const [formState, inputHandler] = useForm(formInput, false);
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
   const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
@@ -40,11 +31,11 @@ const NewCourse = () => {
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
-        // console.log('Fetching metadata...');
+        // console.log('NewCourse: fetchMetadata: Fetching metadata...');
         const responseData = await sendRequest(`${backendUrl}:${backendPort}/getMetadata`);
-        setFullMetadata(responseData.metadata);
+        setApiMetadata(responseData.metadata);
       } catch (err) {
-        console.log('Error fetching metadata');
+        console.log('NewCourse: fetchMetadata: Error fetching metadata');
         console.log(err.message);
       }
     };
@@ -53,19 +44,19 @@ const NewCourse = () => {
 
   // update formData object when metadata changes
   useEffect(() => {
-    if (fullMetadata) {
-      // console.log('Updating full metadata...');
-      formData.fullMetadata = fullMetadata;
+    if (apiMetadata) {
+      // console.log('NewCourse: useEffect formData: Updating full metadata...');
+      formData.metadata = apiMetadata;
     }
-  // eslint-disable-next-line
-  }, [fullMetadata]);
+    // eslint-disable-next-line
+  }, [apiMetadata]);
 
   // update formInput when metadata changes
   useEffect(() => {
-    // console.log('Updating form input...');
+    // console.log('NewCourse: useEffect formData.formInput: Updating form input...');
     setFormInput(formData.formInput);
-  // eslint-disable-next-line
-  }, [fullMetadata]);
+    // eslint-disable-next-line
+  }, [apiMetadata]);
 
   const courseSubmitHandler = async event => {
     event.preventDefault();
@@ -104,7 +95,6 @@ const NewCourse = () => {
       );
       history.push(`/${auth.userId}/courses`); // send user back to courses page
     } catch (err) {
-      // console.log(Object.keys(formState.inputs));
       console.log('NewCourse: courseSubmitHandler: Error in sendRequest');
       console.log(err.message);
     }
@@ -116,22 +106,22 @@ const NewCourse = () => {
       <form className="course-form" onSubmit={courseSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
         {
-          formData.fullMetadata.map(field => {
+          formData.metadata.map(field => {
             return <Input
-          key={field.id}
-          id={field.id}
-          type={field.type}
-          element={field.element}
-          label={field.label}
-          validators={field.validators}
-          errorText={field.errorText}
-          onInput={inputHandler}
-          initialValue=''
-          initialIsValid={field.initialIsValid}
-          formDisplay={field.formDisplay}
-        />;
+              key={field.id}
+              id={field.id}
+              type={field.type}
+              element={field.element}
+              label={field.label}
+              validators={field.validators}
+              errorText={field.errorText}
+              onInput={inputHandler}
+              initialValue=''
+              initialIsValid={field.initialIsValid}
+              formDisplay={field.formDisplay}
+            />;
           }
-        )
+          )
         }
 
         <div className="course-item__actions center">
