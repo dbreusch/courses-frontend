@@ -3,28 +3,30 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
-import Card from '../../shared/components/UIElements/Card';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+// import Card from '../../shared/components/UIElements/Card';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { CourseMetadata } from '../formData/CourseMetadata';
 import './CourseForm.css';
 
-const formData = new CourseMetadata();
+// const formData = new CourseMetadata();
 // const formMetaData = formData.formMetaData;
-const formInput = formData.formInput;
-const validFormKeys = formData.validFormKeys;
+// const formInput = formData.formInput;
+// const validFormKeys = formData.validFormKeys;
 
 const UpdateCourse = () => {
   const auth = useContext(AuthContext);
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const [loadedCourse, setLoadedCourse] = useState();
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
-  const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
+  const [loadedCourse, setLoadedCourse] = useState();
+  const [fullMetadata, setFullMetadata] = useState();
+  const [formData,] = useState(new CourseMetadata());
+  const [formInput, setFormInput] = useState({});
+  const [validFormKeys, setValidFormKeys] = useState([]);
 
   const courseId = useParams().courseId;
   const history = useHistory();
@@ -33,6 +35,47 @@ const UpdateCourse = () => {
     formInput,
     false
   );
+
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://localhost';
+  const backendPort = process.env.REACT_APP_BACKEND_PORT_C || 3002;
+
+  // get course metadata from backend
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        // console.log('Fetching metadata...');
+        const responseData = await sendRequest(`${backendUrl}:${backendPort}/getMetadata`);
+        setFullMetadata(responseData.metadata);
+      } catch (err) {
+        console.log('Error fetching metadata');
+        console.log(err.message);
+      }
+    };
+    fetchMetadata();
+  }, [sendRequest, backendPort, backendUrl]);
+
+  // update formData object when metadata changes
+  useEffect(() => {
+    if (fullMetadata) {
+      // console.log('Updating full metadata...');
+      formData.fullMetadata = fullMetadata;
+    }
+    // eslint-disable-next-line
+  }, [fullMetadata]);
+
+  // update formInput when metadata changes
+  useEffect(() => {
+    // console.log('Updating form input...');
+    setFormInput(formData.formInput);
+    // eslint-disable-next-line
+  }, [fullMetadata]);
+
+  // update validFormKeys when metadata changes
+  useEffect(() => {
+    // console.log('Updating form keys...');
+    setValidFormKeys(formData.validFormKeys);
+    // eslint-disable-next-line
+  }, [fullMetadata]);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -114,23 +157,25 @@ const UpdateCourse = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  // 1/10/22 deprecated
+  // if (isLoading) {
+  //   return (
+  //     <div className="center">
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // }
 
-  if (!loadedCourse && !error) {
-    return (
-      <div className="center">
-        <Card>
-          <h2>UpdateCourse: Could not find course!</h2>
-        </Card>
-      </div>
-    );
-  }
+  // 1/10/22 deprecated
+  // if (!isLoading && !loadedCourse && !error) {
+  //   return (
+  //     <div className="center">
+  //       <Card>
+  //         <h2>UpdateCourse: Could not find course!</h2>
+  //       </Card>
+  //     </div>
+  //   );
+  // }
 
   // 12/13/21
   // There is NO WAY around using eval in the code below.  I tried using Function
@@ -142,6 +187,11 @@ const UpdateCourse = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
       {!isLoading && loadedCourse &&
         <form className="course-form" onSubmit={courseUpdateSubmitHandler}>
           {
