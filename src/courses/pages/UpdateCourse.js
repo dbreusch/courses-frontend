@@ -7,13 +7,13 @@ import Card from '../../shared/components/UIElements/Card';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { useForm } from '../../shared/hooks/form-hook';
-import { CourseMetaData } from '../formData/CourseMetaData';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
+import { CourseMetadata } from '../formData/CourseMetadata';
 import './CourseForm.css';
 
-const formData = new CourseMetaData();
-const formFields = formData.formFields;
+const formData = new CourseMetadata();
+// const formMetaData = formData.formMetaData;
 const formInput = formData.formInput;
 const validFormKeys = formData.validFormKeys;
 
@@ -72,7 +72,7 @@ const UpdateCourse = () => {
       let updateBody = {};
       // TODO: could refactor to put the whole forEach into a separate function; or
       //       just put the nested if in its own function.
-      //       I have also added a field "alias" to formFields that could be used
+      //       I have also added a field "alias" to formMetaData that could be used
       //       (somehow!) to handle the "n"/"purchaseSequence" case more cleanly,
       //       but the code would have to look at that variable, not just formState.
       const formEntries = Object.entries(formState.inputs);
@@ -145,7 +145,7 @@ const UpdateCourse = () => {
       {!isLoading && loadedCourse &&
         <form className="course-form" onSubmit={courseUpdateSubmitHandler}>
           {
-            formFields.map(field => {
+            formData.fullMetadata.map(field => {
               if (field.isUpdateable || auth.isAdmin) {
                 return <Input
                   key={field.id}

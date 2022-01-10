@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../../shared/context/auth-context';
-import { CourseMetaData } from '../formData/CourseMetaData';
+import { CourseMetadata } from '../formData/CourseMetadata';
 import Card from '../../shared/components/UIElements/Card';
 import './CourseDetails.css';
 
-const formData = new CourseMetaData();
-const formFields = formData.formFields;
+const formData = new CourseMetadata();
+// const formMetaData = formData.formMetaData;
 
 const CourseDetails = props => {
   const auth = useContext(AuthContext);
 
-  const renderItems = formFields.map((field, index) => {
+  const renderItems = formData.fullMetadata.map((field, index) => {
     let fieldId;
     if (field.alias) {
       fieldId = field.alias;
@@ -71,7 +71,7 @@ const CourseDetails = props => {
         )
         } */}
       {/*
-        {formFields.map(field => {
+        {formMetaData.map(field => {
           <p> {field.id} </p>;
         })} */}
 
