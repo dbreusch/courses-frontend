@@ -9,6 +9,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { CourseMetadata } from '../metadata/CourseMetadata';
+import { splitCamelCase } from '../../shared/util/splitCamelCase';
 import './CourseForm.css';
 
 const UpdateCourse = () => {
@@ -75,11 +76,12 @@ const UpdateCourse = () => {
           `${backendUrl}:${backendPort}/${courseId}`
         );
         setLoadedCourse(responseData.course);
-        // TODO: could dynamically process the responseData fields to populate
-        //       all formState subobjects with initial values and validity;
-        //       check keys in responseData.course against validFormKeys and
-        //       set values accordingly.  this would look a lot like the code
-        //       used in courseUpdateSubmitHandler to build updateBody.
+        // TODO
+        // dynamically process the responseData fields to populate
+        // all formState subobjects with initial values and validity;
+        // check keys in responseData.course against validFormKeys and
+        // set values accordingly.  this would look a lot like the code
+        // used in courseUpdateSubmitHandler to build updateBody.
         setFormData(
           {
             title: {
@@ -105,24 +107,12 @@ const UpdateCourse = () => {
     event.preventDefault();
     try {
       let updateBody = {};
-      // TODO: could refactor to put the whole forEach into a separate function; or
-      //       just put the nested if in its own function.
-      //       I have also added a field "alias" to formMetaData that could be used
-      //       (somehow!) to handle the "n"/"purchaseSequence" case more cleanly,
-      //       but the code would have to look at that variable, not just formState.
       const formEntries = Object.entries(formState.inputs);
       formEntries.forEach(([formKey, formValue]) => {
         if (validFormKeys.includes(formKey)) {
-          if (formKey === 'n') {
-            if (formValue['value'] !== loadedCourse['purchaseSequence']) {
-              // console.log(`UpdateCourse: Key purchaseSequence: ${loadedCourse['purchaseSequence']} to ${formValue['value']}`);
-              updateBody['purchaseSequence'] = formValue['value'];
-            }
-          } else {
-            if (formValue['value'] !== loadedCourse[formKey]) {
-              // console.log(`UpdateCourse: Key ${formKey}: ${loadedCourse[formKey]} to ${formValue['value']}`);
-              updateBody[formKey] = formValue['value'];
-            }
+          if (formValue['value'] !== loadedCourse[formKey]) {
+            // console.log(`UpdateCourse: Key ${formKey}: ${loadedCourse[formKey]} to ${formValue['value']}`);
+            updateBody[formKey] = formValue['value'];
           }
         }
       });
@@ -148,13 +138,6 @@ const UpdateCourse = () => {
     }
   };
 
-  // 12/13/21
-  // There is NO WAY around using eval in the code below.  I tried using Function
-  // but it gave the same warnings about eval and then failed because the variable
-  // was not in scope.  I also tried moving evaluation into the Input component but
-  // that just moves the problem -- still can't do a "double interpolation" without
-  // using the unsafe eval function!  At least the eslint directive turns off the
-  // warning about it.
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -173,12 +156,11 @@ const UpdateCourse = () => {
                   id={field.id}
                   type={field.type}
                   element={field.element}
-                  label={field.label}
+                  label={splitCamelCase(field.id)}
                   validators={field.validators}
                   errorText={field.errorText}
                   onInput={inputHandler}
-                  // eslint-disable-next-line
-                  initialValue={eval(field.initialValue)}
+                  initialValue={loadedCourse[field.id]}
                   initialIsValid={true}
                   formDisplay={field.formDisplay}
                 />;

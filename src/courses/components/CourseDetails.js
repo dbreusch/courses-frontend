@@ -5,6 +5,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { CourseMetadata } from '../metadata/CourseMetadata';
 import Card from '../../shared/components/UIElements/Card';
+import { splitCamelCase } from '../../shared/util/splitCamelCase';
 import './CourseDetails.css';
 
 const CourseDetails = props => {
@@ -51,14 +52,9 @@ const CourseDetails = props => {
   useEffect(() => {
     if (formData.metadata && formData.metadata.length > 0) {
       renderItems.current = formData.metadata.map((field, index) => {
-        let fieldId;
-        if (field.alias) {
-          fieldId = field.alias;
-        } else {
-          fieldId = field.id;
-        }
+        const fieldId = field.id;
 
-        let fieldLabel = field.label;
+        let fieldLabel = splitCamelCase(fieldId);
         let fieldValue = props.course[fieldId];
         let fieldValueClass = null;
         if (auth.isAdmin || field.isPublic || auth.userId === props.course['creator']) {

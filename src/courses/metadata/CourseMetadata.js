@@ -8,11 +8,14 @@ import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import { VALIDATOR_GT } from '../../shared/util/validators';
 import { VALIDATOR_MIN } from '../../shared/util/validators';
 
+import { formMetaData } from './formMetaData';
+
 export class CourseMetadata {
   constructor() {
     this._metadata = [];
   }
 
+  // convert text format constraints to actual validator functions
   addValidators() {
     // console.log('CourseMetadata: addValidators');
     this._metadata.forEach(field => {
@@ -61,6 +64,51 @@ export class CourseMetadata {
     });
   }
 
+  // provide additional form metadata for presentational purposes
+  addFormData() {
+    if (this._metadata.length > 0) {
+      // console.log('CourseMetadata: addFormData: _metadata > 0');
+      const formKeys = Object.keys(formMetaData);
+      if (formKeys.length > 0) {
+        // console.log('CourseMetadata: addFormData: formKeys > 0');
+
+        const defaults = {
+          "isPublic": true,
+          "initialIsValid": false,
+          "isScrollable": false,
+          "formDisplay": "form-control--inline",
+          "type": "text",
+          "element": "input"
+        };
+        const defaultsKeys = Object.keys(defaults);
+
+        let newFields, newFieldsKeys;
+        let oldKeys;
+        this._metadata.forEach(field => {
+          oldKeys = Object.keys(field);
+          defaultsKeys.forEach((key, index) => {
+            // console.log(`CourseMetadata: adding default key ${key} to ${field.id}`);
+            if (!oldKeys.includes(key)) {
+              field[key] = defaults[key];
+            }
+          });
+        }
+        );
+
+        this._metadata.forEach(field => {
+          if (formKeys.includes(field.id)) {
+            newFields = formMetaData[field.id];
+            newFieldsKeys = Object.keys(newFields);
+            newFieldsKeys.forEach((key, index) => {
+              // console.log(`CourseMetadata: adding additional key ${key} to ${field.id}`);
+              field[key] = newFields[key];
+            });
+          }
+        });
+      }
+    }
+  }
+
   get metadata() {
     return this._metadata;
   }
@@ -70,8 +118,9 @@ export class CourseMetadata {
     if (data.length > 0) {
       // console.log('CourseMetadata: assigning');
       this._metadata = data;
-      // console.log('CourseMetadata: loading');
+      // console.log('CourseMetadata: adding validators');
       this.addValidators();
+      this.addFormData();
     }
     // else {
     //   console.log('CourseMetadata: set metadata input is empty');

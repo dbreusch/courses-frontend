@@ -9,6 +9,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { CourseMetadata } from '../metadata/CourseMetadata';
+import { splitCamelCase } from '../../shared/util/splitCamelCase';
 import './CourseForm.css';
 
 const NewCourse = () => {
@@ -61,9 +62,9 @@ const NewCourse = () => {
   const courseSubmitHandler = async event => {
     event.preventDefault();
 
-    // Note: that the purchaseSequence field is being referred to as "n" is an artifact
-    // of support for loading courses from an Excel spreadsheet, where this is the
-    // column title
+    // TODO
+    // switch to normal database fields (NOT the Excel fields)
+    // generate dynamically from formData.metadata and formState
     try {
       await sendRequest(
         `${backendUrl}:${backendPort}/addCourse`,
@@ -72,7 +73,7 @@ const NewCourse = () => {
           {
             course:
             {
-              n: formState.inputs.n.value,
+              purchaseSequence: formState.inputs.purchaseSequence.value,
               Title: formState.inputs.title.value,
               Category: formState.inputs.category.value,
               Tools: formState.inputs.tools.value,
@@ -112,7 +113,7 @@ const NewCourse = () => {
               id={field.id}
               type={field.type}
               element={field.element}
-              label={field.label}
+              label={splitCamelCase(field.id)}
               validators={field.validators}
               errorText={field.errorText}
               onInput={inputHandler}
