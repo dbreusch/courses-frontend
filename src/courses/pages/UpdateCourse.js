@@ -76,25 +76,31 @@ const UpdateCourse = () => {
           `${backendUrl}:${backendPort}/${courseId}`
         );
         setLoadedCourse(responseData.course);
+        // ************************************************************
+        // 1/11/22
+        // This TODO and the setFormData are obsolete.  Commenting out
+        // the code did not affect behavior at all!
+        //
         // TODO
         // dynamically process the responseData fields to populate
         // all formState subobjects with initial values and validity;
         // check keys in responseData.course against validFormKeys and
         // set values accordingly.  this would look a lot like the code
         // used in courseUpdateSubmitHandler to build updateBody.
-        setFormData(
-          {
-            title: {
-              value: responseData.course.title,
-              isValid: true
-            },
-            instructor: {
-              value: responseData.course.instructor,
-              isValid: true
-            }
-          },
-          true
-        );
+        // setFormData(
+        //   {
+        //     title: {
+        //       value: responseData.course.title,
+        //       isValid: true
+        //     },
+        //     instructor: {
+        //       value: responseData.course.instructor,
+        //       isValid: true
+        //     }
+        //   },
+        //   true
+        // );
+        // ************************************************************
       } catch (err) {
         console.log('UpdateCourse: fetchCourse: error fetching course');
         console.log(err.message);
