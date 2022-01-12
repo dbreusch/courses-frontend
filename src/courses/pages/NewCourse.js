@@ -63,7 +63,6 @@ const NewCourse = () => {
     event.preventDefault();
 
     // TODO
-    // switch to normal database fields (NOT the Excel fields)
     // generate dynamically from formData.metadata and formState
     try {
       await sendRequest(
@@ -74,16 +73,16 @@ const NewCourse = () => {
             course:
             {
               purchaseSequence: formState.inputs.purchaseSequence.value,
-              Title: formState.inputs.title.value,
-              Category: formState.inputs.category.value,
-              Tools: formState.inputs.tools.value,
-              Hours: formState.inputs.hours.value,
-              Sections: formState.inputs.sections.value,
-              Lectures: formState.inputs.lectures.value,
-              Instructor: formState.inputs.instructor.value,
-              Bought: formState.inputs.dateBought.value,
-              Finished: formState.inputs.dateCompleted.value,
-              desc: formState.inputs.description.value,
+              title: formState.inputs.title.value,
+              category: formState.inputs.category.value,
+              tools: formState.inputs.tools.value,
+              hours: formState.inputs.hours.value,
+              sections: formState.inputs.sections.value,
+              lectures: formState.inputs.lectures.value,
+              instructor: formState.inputs.instructor.value,
+              dateBought: formState.inputs.dateBought.value,
+              dateCompleted: formState.inputs.dateCompleted.value,
+              description: formState.inputs.description.value,
               notes: formState.inputs.notes.value,
               provider: formState.inputs.provider.value
             }
